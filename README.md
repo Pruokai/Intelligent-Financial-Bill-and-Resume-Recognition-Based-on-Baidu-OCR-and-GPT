@@ -1,2 +1,2 @@
-# Intelligent-financial-bill-recognition
+# 财务票据识别
 通过使用百度OCR的模型，对发票进行识别.
