@@ -49,18 +49,6 @@ def extract_invoice_info(data):
         invoice_num = result['InvoiceNum'][0]['word']
         purchaser_name = result['PurchaserName'][0]['word']
         seller_name = result['SellerName'][0]['word']
-        if '双尾' in purchaser_name and '广州' in purchaser_name:
-            purchaser_name = '双尾彗星(广州)网络科技有限公司'
-        elif '双尾' in purchaser_name and '深圳' in purchaser_name:
-            purchaser_name = '双尾彗星(深圳)网络科技有限公司'
-        elif '双尾' in purchaser_name and '上海' in purchaser_name:
-            purchaser_name = '双尾彗星(上海)网络科技有限公司'
-        if '双尾' in seller_name and '广州' in seller_name:
-            seller_name = '双尾彗星(广州)网络科技有限公司'
-        elif '双尾' in seller_name and '深圳' in seller_name:
-            seller_name = '双尾彗星(深圳)网络科技有限公司'
-        elif '双尾' in seller_name and '上海' in seller_name:
-            seller_name = '双尾彗星(上海)网络科技有限公司'
         # Removing unwanted text from the '我方单位' and '对方单位' columns
         purchaser_name = remove_unwanted_text(purchaser_name)
         seller_name = remove_unwanted_text(seller_name)
@@ -150,10 +138,6 @@ def extract_invoice_info(data):
         else:
             # Handle the case where 'InvoiceCode' is not available
             invoice_code = ""
-        if '双尾' in purchaser_name:
-            purchaser_name = '双尾彗星(广州)网络科技有限公司'
-        if '双尾' in seller_name:
-            seller_name = '双尾彗星(广州)网络科技有限公司'
         # Removing unwanted text from the '我方单位' and '对方单位' columns
         purchaser_name = remove_unwanted_text(purchaser_name)
         seller_name = remove_unwanted_text(seller_name)
@@ -300,7 +284,7 @@ def process_img_invoices(folder_path, access_token):
     return invoice_info_list
 
 def determine_invoice_type(row):
-    purchaser_keywords = ['桃浪网络', '点亮视界', '双尾彗星']
+    purchaser_keywords = ['公司名字']
     seller_keywords = []  # Add any keywords for the seller if needed
 
     try:
