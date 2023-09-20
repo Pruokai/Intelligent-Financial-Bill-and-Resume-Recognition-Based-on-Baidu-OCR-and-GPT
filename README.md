@@ -8,7 +8,7 @@
 ### 3.2 该代码是根据公司需求获取所需内容，增值税发票，汽车票，火车票等，如需增添其他内容，希望自行查看[智能财务票据识别技术文档](https://cloud.baidu.com/doc/OCR/s/7ktb8md0j)进行学习与修改。
 
 
-# 发票识别
+# 简历识别
 ## 1.安装依赖库pandas，re，urllib，openai，docx2pdf，requests。
 ## 2.百度智能云API创建与获取
 ### 2.1 进入[百度智能云通用文字识别](https://cloud.baidu.com/product/ocr/general)，注册登录后，根据教程创建实例获取client_id和client_secret。
