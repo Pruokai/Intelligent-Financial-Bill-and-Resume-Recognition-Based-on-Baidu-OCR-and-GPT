@@ -10,8 +10,8 @@ import pandas as pd
 
 
 # Z2U
-openai.api_key = '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'
-os.environ["OPENAI_API_KEY"] = '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'
+openai.api_key = 'your_key'
+os.environ["OPENAI_API_KEY"] = 'your_secre'
 
 def openai_api_call(prompt):
     response = openai.ChatCompletion.create(
