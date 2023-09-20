@@ -11,7 +11,7 @@ import pandas as pd
 
 # Z2U
 openai.api_key = 'your_key'
-os.environ["OPENAI_API_KEY"] = 'your_secre'
+os.environ["OPENAI_API_KEY"] = 'your_secret'
 
 def openai_api_call(prompt):
     response = openai.ChatCompletion.create(
@@ -35,9 +35,8 @@ def construct_prompt(json_data):
 性别：
 如果没有相关内容，则填写"     "，不要填写其他内容，请注意，不需要其他内容，不需要任何解释和说明,不要添加其他任何东西,不要给任何代码。
 """
-    # " Please use your imagination to continue the above script, writing the next five shots, and specify the type of shot for each scene.
-    # No less than 100 words per shot.
-    # Use Chinese to output."
+    # 可以根据具体需求来prompt。
+
     return prompt
 
 # 正则匹配模式，用于提取信息
