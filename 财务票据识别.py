@@ -325,4 +325,4 @@ def process_folder_invoices(folder_path, output_file):
     df.to_excel(output_file, index=False)
 
 # Call the function and specify the folder path and output file name
-process_folder_invoices('发票/test0', '8.0.xlsx')
+process_folder_invoices('input_path', 'output.xlsx')
