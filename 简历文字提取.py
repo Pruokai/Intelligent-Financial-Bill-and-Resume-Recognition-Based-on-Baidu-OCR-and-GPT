@@ -6,9 +6,9 @@ import os
 
 
 
-# Replace with your Baidu API key and secret key
-baidu_api_key = 'kgDyIyspcLcPv33VEMhs1ifS'
-baidu_secret_key = '7QRMPwrH0wWlSCUwt4AaRykBvOQ1Y03u'
+# 替换为您的百度API密钥和密钥
+baidu_api_key = 'your_client_id'
+baidu_secret_key = 'your_client_secret'
 
 def get_baidu_access_token(api_key, secret_key):
     url = f'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={api_key}&client_secret={secret_key}'
@@ -45,7 +45,7 @@ def recognize_text_with_baidu(image_path, pdf_file, api_key, secret_key):
             return extracted_text
     return None
 
-# Convert a .doc or .docx file to PDF
+# 将.doc或.docx文件转换为PDF
 def convert_to_pdf(input_path, output_path):
     """
     Convert a .doc or .docx file to PDF.
@@ -60,7 +60,7 @@ def convert_to_pdf(input_path, output_path):
     convert(input_path, output_path)
 
 
-# Process each file in the input folder
+# 处理输入文件夹中的每个文件
 def process_files(input_folder, output_folder):
     for filename in os.listdir(input_folder):
         file_path = os.path.join(input_folder, filename)
@@ -87,14 +87,14 @@ def save_text_to_file(output_folder, filename, content):
         f.write(content)
     print(f"Extracted text from {filename} saved to {output_file_path}\n")
 
-# Input folder containing various files
-input_folder = "K:/AI/公司简历/游戏视频策划"
-output_folder = "E:/project/简历识别/txt"
+# 输入输出文件
+input_folder = "input_path"
+output_folder = "output_path"
 
-# Create output folder if it doesn't exist
+# 如果输出文件夹不存在，则创建该文件夹
 os.makedirs(output_folder, exist_ok=True)
 
-# Process files and extract text using Baidu OCR, then save as text files
+# 使用百度OCR处理文件并提取文本，然后保存为文本文件
 process_files(input_folder, output_folder)
 
 
