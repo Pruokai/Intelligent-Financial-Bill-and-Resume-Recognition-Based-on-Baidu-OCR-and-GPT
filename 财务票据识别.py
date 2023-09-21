@@ -35,21 +35,21 @@ def extract_invoice_info(data):
     #增值税发票
     if 'vat_invoice' in type:
         result = words_result[0]['result']
-        # Check if 'InvoiceCode' key exists in the result
+        # 检查结果中是否存在“InvoiceCode”键
         if 'InvoiceCode' in result:
-            # Extract the invoice code value if it's available
+            # 提取发票代码值（如果可用）
             invoice_code = result['InvoiceCode']
             if invoice_code:
                 invoice_code = invoice_code[0]['word'].strip("[]{}'")
             else:
                 invoice_code = ""
         else:
-            # Handle the case where 'InvoiceCode' is not available
+            # 处理“InvoiceCode”不可用的情况
             invoice_code = ""
         invoice_num = result['InvoiceNum'][0]['word']
         purchaser_name = result['PurchaserName'][0]['word']
         seller_name = result['SellerName'][0]['word']
-        # Removing unwanted text from the '我方单位' and '对方单位' columns
+        # 删除 '我方单位' 和 '对方单位' 中不需要的文本内容
         purchaser_name = remove_unwanted_text(purchaser_name)
         seller_name = remove_unwanted_text(seller_name)
         date = result['InvoiceDate'][0]['word']
@@ -65,11 +65,11 @@ def extract_invoice_info(data):
         elif '普' in invoice_type:
             invoice_type = '纸质普票'
 
-        remarks = result.get('Remarks', [])  # Get the 'Remarks' key or empty list if not available
+        remarks = result.get('Remarks', [])  # 获取“备注”键或空列表（如果不可用）
         if remarks:
-            remarks = remarks[0]['word'].strip("[]{}'")  # Extract the remark value if it's available
+            remarks = remarks[0]['word'].strip("[]{}'")  # 提取备注值（如果可用）
         else:
-            remarks = ""  # Set to empty string if the remark is not available
+            remarks = ""  # 如果备注不可用，则设置为空字符串
 
         try:
             total_tax = float(total_tax)
@@ -124,21 +124,21 @@ def extract_invoice_info(data):
             else:
                 invoice_code = ""
         else:
-            # Handle the case where 'InvoiceCode' is not available
+            # 处理“InvoiceCode”不可用的情况
             invoice_code = ""
         invoice_num = result['InvoiceNum'][0]['word']
         purchaser_name = result['PurchaserName'][0]['word']
         if 'SellerName' in result:
-            # Extract the invoice code value if it's available
+            # 提取发票代码值（如果可用）
             seller_name = result['SellerName']
             if seller_name:
                 seller_name = seller_name[0]['word']
             else:
                 seller_name = ""
         else:
-            # Handle the case where 'InvoiceCode' is not available
+            # 处理“InvoiceCode”不可用的情况
             invoice_code = ""
-        # Removing unwanted text from the '我方单位' and '对方单位' columns
+        # 删除 '我方单位' 和 '对方单位' 中不需要的文本内容
         purchaser_name = remove_unwanted_text(purchaser_name)
         seller_name = remove_unwanted_text(seller_name)
         date = result['InvoiceDate'][0]['word']
@@ -163,14 +163,14 @@ def extract_invoice_info(data):
     elif 'quota_invoice' in type:
         result = words_result[0]['result']
         if 'invoice_code' in result:
-            # Extract the invoice code value if it's available
+            # 提取发票代码值（如果可用）
             invoice_code = result['invoice_code']
             if invoice_code:
                 invoice_code = invoice_code[0]['word'].strip("[]{}'")
             else:
                 invoice_code = ""
         else:
-            # Handle the case where 'InvoiceCode' is not available
+            # 处理“InvoiceCode”不可用的情况
             invoice_code = ""
         invoice_num = result['invoice_number'][0]['word']
         total_amount = result['invoice_rate'][0]['word']
@@ -187,21 +187,21 @@ def extract_invoice_info(data):
 #处理文件夹中所有发票的功能
 def process_invoice_file(file_path, file_type, access_token):
     if file_type == 'image':
-        # Process image files
+        # 处理图像文件
         with open(file_path, 'rb') as f:
             img = base64.b64encode(f.read())
 
-        # Set the parameters for image processing
+        # 设置图像处理的参数
         params = {
             'image': img,
             'show': 'true'
         }
     elif file_type == 'pdf':
-        # Process PDF files
+        # 处理PDF文件
         with open(file_path, 'rb') as f:
             pdf_file = base64.b64encode(f.read())
 
-        # Set the parameters for PDF processing
+        # 设置PDF处理的参数
         params = {
             'pdf_file': pdf_file,
             'show': 'true'
@@ -209,7 +209,7 @@ def process_invoice_file(file_path, file_type, access_token):
 
     params = urllib.parse.urlencode(params).encode("utf-8")
 
-    # Call the Baidu OCR API
+    # 调用百度OCR API
     request_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/multiple_invoice?access_token=" + access_token
     request = urllib.request.Request(url=request_url, data=params)
     request.add_header('Content-Type', 'application/x-www-form-urlencoded')
@@ -223,7 +223,7 @@ def process_invoice_file(file_path, file_type, access_token):
             invoice_info = extract_invoice_info(data)
         except KeyError as e:
             print(f"Failed to recognize invoice from {file_path}: {e}")
-            # Add the image details to the '备注' column
+            # 将图像详细信息添加到'备注' 栏目
             invoice_info = (
                 None, None, None, None, None, None, None, None, None, None, None, '', '', '', '',
                 file_path,
@@ -240,14 +240,14 @@ def convert_to_date_string(date_str):
         return None
 
     try:
-        # Try converting the date using the original format
+        # 尝试使用原始格式转换日期
         date_obj = datetime.strptime(date_str, '%Y年%m月%d日')
     except ValueError:
         try:
-            # If the original format fails, try converting with the format for car tickets
+            # 如果原始格式失败，请尝试使用汽车票的格式进行转换
             date_obj = datetime.strptime(date_str, '%Y-%m-%d')
         except ValueError:
-            # If both formats fail, set the date to None
+            # 如果两种格式都失败，请将日期设置为“无”
             return None
 
     return date_obj.strftime('%Y年%m月%d日')
@@ -291,7 +291,7 @@ def determine_invoice_type(row):
         purchaser = any(keyword in row['我方单位'] for keyword in purchaser_keywords)
         seller = any(keyword in row['对方单位'] for keyword in seller_keywords)
     except TypeError:
-        # Handle the case where '我方单位' or '对方单位' is None
+        # 处理 '我方单位' 或 '对方单位' 为空的情况
         purchaser = False
         seller = False
 
@@ -314,15 +314,15 @@ def process_folder_invoices(folder_path, output_file):
     ]
     df = pd.DataFrame(img_invoices, columns=columns)
 
-    # Convert the '开票日期' column to date string in the original format
+    # 转换'开票日期' 原始格式的列到日期字符串
     df['开票日期'] = df['开票日期'].apply(convert_to_date_string)
 
-    # Sort the DataFrame by the '开票日期' column
+    # 按'开票日期'对表格进行排序 
     df.sort_values(by='开票日期', ascending=True, inplace=True)
 
-    # Determine the '进销属性' based on keywords
+    # 基于关键字确定’进销属性' 
     df['进销属性'] = df.apply(determine_invoice_type, axis=1)
     df.to_excel(output_file, index=False)
 
-# Call the function and specify the folder path and output file name
+# 调用函数并指定文件夹路径和输出文件名
 process_folder_invoices('input_path', 'output.xlsx')
